@@ -3,12 +3,12 @@
 - **Descripción breve:**
   Proyecto de ejemplo que organiza estilos con la metodología BEM y usa SCSS (Sass) para facilitar mantenimiento y escalabilidad. Los estilos compilados están en `ASSETS/CSS/main.css` y `index.html` ya los carga.
 
-**Por qué elegiR BEM**
+**Por qué elegir BEM**
 - **Claridad y alcance:** BEM (Bloque__Elemento--Modificador) hace explícito a qué componente pertenece cada clase, evitando colisiones y facilitando búsquedas.
 - **Escalabilidad:** Es fácil añadir componentes o reutilizar bloques sin romper estilos existentes.
 - **Colaboración:** Equipos grandes o futuros contribuidores entienden rápidamente la estructura y convención de nombres.
 
-**Por qué elegiR SCSS (Sass)**
+**Por qué elegir SCSS (Sass)**
 - **Organización por partials:** SCSS permite dividir estilos en partials (`SRC/_variables.scss`, `SRC/components/_recipe-card.scss`, etc.) para responsabilidad única y lectura sencilla.
 - **Nesting y modularidad:** El anidado hace natural representar BEM en el código (`.recipe-card { &__title { ... } }`).
 - **Futuro crecimiento:** Sass facilita mixins, funciones y variables Sass si luego se decide migrar desde custom properties a variables Sass.
@@ -40,3 +40,4 @@ npm start
 - Añadir `postcss` + `autoprefixer` y un paso de minificación en el pipeline de build.
 - Separar más componentes si el proyecto crece (crear `SRC/components/*` adicionales).
 - Añadir pruebas visuales o storybook para componentes UI si se vuelve un sistema de diseño.
+
