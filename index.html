@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario Celíaco - Arquitectura Modular</title>
+    <link rel="stylesheet" href="ASSETS/CSS/main.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1 class="header__title">🌾 Recetario Celíaco</h1>
+            <p class="header__subtitle">Recetas deliciosas 100% sin gluten con arquitectura modular </p>
+
+            <nav class="header__nav" aria-label="Principal">
+                <ul class="header__nav-list">
+                    <li class="header__nav-item"><a class="header__nav-link" href="index.html">Inicio</a></li>
+                    <li class="header__nav-item"><a class="header__nav-link" href="recetas.html">Recetas</a></li>
+                    <li class="header__nav-item"><a class="header__nav-link" href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                    <li class="header__nav-item"><a class="header__nav-link" href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="controls">
+            <div class="search">
+                <input
+                    type="text"
+                    class="search__input"
+                    id="searchInput"
+                    placeholder="Buscar recetas..."
+                />
+            </div>
+        </div>
+
+        <div class="grid" id="recipesGrid"></div>
+        <footer class="site-footer">
+            <p class="site-footer__text">© <span class="js-current-year"></span> Recetario Celíaco.</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // ARQUITECTURA JAVASCRIPT MODULAR 
+        // ============================================
+
+        // Datos de recetas
+        const recipesData = [
+            {
+                id: 1,
+                title: 'Pan de Arroz Integral',
+                description: 'Pan esponjoso y nutritivo hecho con harina de arroz integral',
+                time: '45 min',
+                servings: '8 porciones',
+                isFavorite: false,
+                ingredients: [
+                    '300g harina de arroz integral',
+                    '2 huevos orgánicos',
+                    '1 taza de leche de almendras',
+                    '1 cucharada de levadura',
+                    'Sal marina al gusto'
+                ]
+            },
+            {
+                id: 2,
+                title: 'Pizza de Coliflor',
+                description: 'Base crujiente de coliflor, perfecta para una pizza saludable',
+                time: '35 min',
+                servings: '4 porciones',
+                isFavorite: false,
+                ingredients: [
+                    '1 coliflor mediana',
+                    '2 huevos',
+                    '200g queso mozzarella',
+                    'Especias italianas',
+                    'Salsa de tomate natural'
+                ]
+            },
+            {
+                id: 3,
+                title: 'Brownies de Almendra',
+                description: 'Brownies húmedos con harina de almendra, 100% sin gluten',
+                time: '30 min',
+                servings: '12 porciones',
+                isFavorite: false,
+                ingredients: [
+                    '200g chocolate negro 70%',
+                    '150g harina de almendras',
+                    '3 huevos',
+                    '100g azúcar de coco',
+                    '100g mantequilla'
+                ]
+            }
+        ];
+
+        // Estado de la aplicación
+        let recipes = [...recipesData];
+        let searchTerm = '';
+
+        // Renderizar receta individual
+        function renderRecipe(recipe) {
+            return `
+                <div class="recipe-card">
+                    <div class="recipe-card__header">
+                        <span class="badge">Sin Gluten</span>
+                        <button 
+                            class="recipe-card__favorite" 
+                            onclick="toggleFavorite(${recipe.id})"
+                            aria-label="Marcar como favorito"
+                        >
+                            <svg 
+                                class="recipe-card__favorite-icon ${recipe.isFavorite ? 'recipe-card__favorite-icon--active' : ''}" 
+                                viewBox="0 0 24 24" 
+                                fill="${recipe.isFavorite ? '#ff0000' : 'none'}" 
+                                stroke="currentColor" 
+                                stroke-width="2"
+                            >
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="recipe-card__title">${recipe.title}</h3>
+                    <p class="recipe-card__description">${recipe.description}</p>
+                    <div class="recipe-card__meta">
+                        <span class="recipe-card__meta-item">⏱️ ${recipe.time}</span>
+                        <span class="recipe-card__meta-item">👥 ${recipe.servings}</span>
+                    </div>
+                    <h4>Ingredientes:</h4>
+                    <ul class="recipe-card__list">
+                        ${recipe.ingredients.map(ing => `<li class="recipe-card__list-item">${ing}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Renderizar todas las recetas
+        function renderRecipes() {
+            const grid = document.getElementById('recipesGrid');
+            const filtered = recipes.filter(recipe => 
+                recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: #666;">No se encontraron recetas</p>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(renderRecipe).join('');
+        }
+
+        // Toggle favorito
+        function toggleFavorite(id) {
+            recipes = recipes.map(recipe => 
+                recipe.id === id ? { ...recipe, isFavorite: !recipe.isFavorite } : recipe
+            );
+            renderRecipes();
+        }
+
+        // Búsqueda
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderRecipes();
+        });
+
+        // Renderizar inicial
+        renderRecipes();
+
+        // Insertar año actual en elementos con la clase .js-current-year
+        function setCurrentYear() {
+            const year = new Date().getFullYear();
+            document.querySelectorAll('.js-current-year').forEach(el => el.textContent = year);
+        }
+
+        setCurrentYear();
+    </script>
+</body>
+</html>

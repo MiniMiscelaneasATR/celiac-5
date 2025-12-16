@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Contacto - Recetario Celíaco</title>
+	<link rel="stylesheet" href="ASSETS/CSS/main.css">
+</head>
+<body>
+	<div class="app">
+		<header class="header">
+			<h1 class="header__title">Contacto</h1>
+			<p class="header__subtitle">Escríbenos y te responderemos pronto</p>
+
+			<nav class="header__nav" aria-label="Principal">
+				<ul class="header__nav-list">
+					<li class="header__nav-item"><a class="header__nav-link" href="index.html">Inicio</a></li>
+					<li class="header__nav-item"><a class="header__nav-link" href="recetas.html">Recetas</a></li>
+					<li class="header__nav-item"><a class="header__nav-link" href="sobre-nosotros.html">Sobre Nosotros</a></li>
+					<li class="header__nav-item"><a class="header__nav-link" href="contacto.html">Contacto</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="content">
+			<p style="color:var(--color-text-light); text-align:center;">Formulario de contacto aquí.</p>
+		</main>
+
+		<footer class="site-footer">
+			<p class="site-footer__text">© <span class="js-current-year"></span> Recetario Celíaco.</p>
+		</footer>
+	</div>
+
+	<script>
+		(function setCurrentYear(){
+			const year = new Date().getFullYear();
+			document.querySelectorAll('.js-current-year').forEach(el => el.textContent = year);
+		})();
+	</script>
+</body>
+</html>
